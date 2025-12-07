@@ -1,0 +1,8 @@
+streamlit
+crawl4ai
+beautifulsoup4
+requests
+selenium
+undetected-chromedriver
+# For Local Inference
+# llama-cpp-python (Installation varies by OS, see README)

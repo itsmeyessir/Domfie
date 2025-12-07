@@ -180,7 +180,7 @@ def fetch_html(url):
         return None
 
 # MAIN UI LOOP
-st.title("🚑 Self-Healing Scraper V4")
+st.title("Self-Healing Scraper")
 st.caption("Local Agent | Ollama | Selenium | JSON-LD")
 
 col1, col2 = st.columns([1, 1])

@@ -7,6 +7,24 @@
 
 > **"Scrapers shouldn't break just because a `<div>` changed."**
 
+## Visual Demo
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" width="50%" style="height:420px; overflow:hidden; vertical-align:middle;">
+        <img src="assets/ui_screenshot.png" alt="Domfie UI" style="height:420px; width:auto; object-fit:cover;">
+        <br><b>UI Interface</b>
+      </td>
+      <td align="center" width="50%" style="height:420px; overflow:hidden; vertical-align:middle;">
+        <img src="assets/demo.gif" alt="Self-Healing Demo" style="height:420px; width:auto; object-fit:cover;">
+        <br><b>Self-Healing in Action</b>
+      </td>
+    </tr>
+  </table>
+  <p><em>Note: The version label 'V4' in the live demo is a typo.</em></p>
+</div>
+
 ## Table of Contents
 
 1. [Project Manifesto](#project-manifesto)
@@ -50,6 +68,29 @@ To make this run on consumer hardware (local MacBook/Consumer GPU), I architecte
 | **The Brain** | `Qwen2.5-1.5B (GGUF)` | A fine-tuned model that translates `Raw HTML + User Intent` $\rightarrow$ `CSS Selector`. |
 | **The Fallback** | `Direct Extraction` | If code generation fails (e.g., obfuscated React apps), the agent switches strategies to read text directly. |
 
+```mermaid
+graph TD;
+    User[User / Client] -->|Intent + URL| UI[Streamlit UI / API];
+    UI --> Body[Crawl4AI Browser];
+    
+    subgraph "The Autonomous Loop"
+        Body -->|Raw HTML| Check{Selector Works?};
+        Check -->|Yes| Cache[Return Data];
+        Check -->|No| Healer[AI Healer];
+        
+        Healer -->|1. Extract Subject| NLP[Heuristic NLP];
+        NLP -->|2. Focus Context| CleanHTML[HTML Chunking];
+        CleanHTML -->|3. Generate Selector| Brain[Qwen 2.5-1.5B];
+        
+        Brain -->|New Selector| Verify{Verify Fix};
+        Verify -->|Success| Cache;
+        Verify -->|Fail| Fallback[Direct Text Extraction];
+    end
+    
+    Fallback --> Result[Final Data];
+    Cache --> Result;
+```
+
 ---
 
 ## Quick Start Guide
@@ -87,7 +128,7 @@ Move the `.gguf` file into a folder with the `Modelfile` from this repo.
     ```
 2.  **Run the UI:** (In a new terminal)
     ```bash
-    pip install streamlit crawl4ai beautifulsoup4 requests selenium
+    pip install -r requirements.txt # review the text file first
     streamlit run app.py
     `````
 
@@ -168,5 +209,6 @@ This codebase was built in 7 distinct engineering phases.
 ├── dom_specialist.Q4_K_M.gguf      # The model (Not committed)
 ├── app.py                          # Local Testing of Agent Logic and UI (No ngrok needed)
 ├── dom_specialist_dataset.jsonl    # The Synthetic Training Data
-├── LICENSE                         # Kindly check this out
+├── requirements.txt                # Kindly check this out
+├── LICENSE                         # Kindly check this out too
 └── README.md                       # You are here
