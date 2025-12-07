@@ -165,7 +165,7 @@ This codebase was built in 7 distinct engineering phases.
 /
 ├── domfie.ipynb                    # The Master Notebook (Phases 1-9)
 ├── Modelfile                       # Ollama Configuration for the GGUF model
-├── dom_specialist.Q4_K_M.gguf      # The model (Not commited, download this and put it in your project directory)
+├── dom_specialist.Q4_K_M.gguf      # The model (Not commited)
 ├── app.py                          # Local Testing of Agent Logic and UI (No ngrok needed)
 ├── dom_specialist_dataset.jsonl    # The Synthetic Training Data
 ├── LICENSE                         # Kindly check this out
