@@ -1,4 +1,4 @@
-# The Self-Healing DOM Scraper (Agentic RAG)
+# Domfie: The Self-Healing DOM Scraper (Agentic RAG)
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![Model](https://img.shields.io/badge/Model-Qwen2.5--Coder--1.5B-violet)
