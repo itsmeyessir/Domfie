@@ -1,0 +1,35 @@
+# 1. Point to your GGUF file
+# Make sure the filename matches exactly what is in your folder
+FROM ./dom_specialist.Q4_K_M.gguf
+
+# 2. Set the Template (ChatML)
+# This is crucial for Qwen. It defines how the model distinguishes between
+# System instructions, User inputs (HTML), and its own Responses.
+TEMPLATE """{{ if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}{{ if .Prompt }}<|im_start|>user
+{{ .Prompt }}<|im_end|>
+{{ end }}<|im_start|>assistant
+{{ .Response }}<|im_end|>"""
+
+# 3. System Prompt
+# We hardcode the identity so it stays in character.
+SYSTEM """You are a DOM-aware agent. Your job is to analyze raw HTML and extract specific data or generate CSS selectors based on user intent.
+If asked for a Selector, return only the CSS selector.
+If asked for Data, return only the extracted text.
+Do not provide conversational filler."""
+
+# 4. Parameters (Matched to our Python Script)
+
+# A. Context Window: 8192
+# We increased this in Phase 7 to handle larger HTML chunks (like Wikipedia).
+PARAMETER num_ctx 8192
+
+# B. Temperature: 0.1
+# We want precision. We don't want the model to be "creative" with code.
+PARAMETER temperature 0.1
+
+# C. Stop Tokens
+# Tells the model when to stop talking.
+PARAMETER stop "<|im_start|>"
+PARAMETER stop "<|im_end|>"
